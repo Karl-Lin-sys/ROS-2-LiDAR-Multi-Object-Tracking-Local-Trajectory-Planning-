@@ -1,0 +1,43 @@
+# NIST Cybersecurity Framework (CSF) 2.0 & Taiwan Legal Compliance Policy
+# Repository: ROS-2-LiDAR-Multi-Object-Tracking-Local-Trajectory-Planning-
+# Jurisdiction: Republic of China (Taiwan)
+
+nist_csf_2_0_profile:
+  govern_gv:
+    gv_oc_01: "Autonomous Robotic Perception & Local Planning Safety-Critical Governance"
+    gv_sc_02: "Supply-chain verification via SBOM and deterministic CMake dependency pinning"
+    legal_compliance:
+      jurisdiction: "Taiwan (R.O.C.)"
+      statutes:
+        - "Personal Data Protection Act (PDPA / 個人資料保護法): Zero PII retention; raw depth/RGB frames processed strictly in volatile RAM without persistent disk logging."
+        - "Cyber Security Management Act (資通安全管理法): Real-time anomaly auditing and SROS2 DDS access control."
+        - "Copyright Act (著作權法): 100% clean-room C++20 implementation licensed under Apache-2.0."
+        - "Unmanned Vehicles Technology Innovative Experimentation Act (無人載具科技創新實驗條例): Automatic hardware/software failsafe engagement on sensor degradation."
+
+  identify_id:
+    id_am_01:
+      sensors: ["3D LiDAR (sensor_msgs/PointCloud2)", "Depth Camera (sensor_msgs/Image)", "6-Axis IMU (sensor_msgs/Imu)"]
+      compute: ["ROS 2 Component Container (Intra-Process Zero-Copy)", "Ceres Non-Linear Optimizer", "ONNX Runtime / TensorRT Engine"]
+    id_ra_01:
+      threat_model:
+        - "Time-Synchronization Drift / PTP Spoofing Attack"
+        - "Adversarial LiDAR Point Cloud Injection / Buffer Exhaustion DoS"
+        - "Ghost Track Persistence via Calibration Misalignment"
+
+  protect_pr:
+    pr_ac_01: "SROS2 Enclave DDS Security (Authentication, AES-GCM Encryption, Topic Access Control)"
+    pr_ds_02: "Zero-Copy LoanedMessage and UniquePtr memory isolation; zero raw pointer arithmetic"
+    pr_ps_01: "Compiler hardening (-fstack-protector-strong, -D_FORTIFY_SOURCE=2, C++20 RAII)"
+
+  detect_de:
+    de_ae_01:
+      max_allowed_points_per_sweep: 300000
+      max_timestamp_jump_sec: 1.0
+      mahalanobis_chi2_gate_4dof_95pct: 9.488
+    de_cm_01: "Continuous per-frame latency monitoring (strict 25.0 ms real-time budget)"
+
+  respond_rs:
+    rs_mi_01: "Immediate frame drop and zero-velocity TwistStamped failsafe command upon validation failure"
+
+  recover_rc:
+    rc_rp_01: "Deterministic Kalman covariance reset and pose-buffer flush upon sensor recovery"
